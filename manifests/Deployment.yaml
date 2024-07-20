@@ -18,3 +18,8 @@ spec:
         image: linhps/your-repo-name:latest
         ports:
         - containerPort: 80
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 100%
