@@ -1,20 +1,14 @@
-# Use an official Node.js runtime as a parent image
-FROM node:14
+# Sử dụng image cơ sở, ví dụ: Alpine
+FROM alpine:latest
 
-# Set the working directory in the container
-WORKDIR /usr/src/app
+# Cài đặt các công cụ cần thiết, ví dụ: curl
+RUN apk --no-cache add curl
 
-# Copy the package.json and package-lock.json files to the container
-COPY package*.json ./
+# Đặt thư mục làm việc
+WORKDIR /app
 
-# Install any needed packages
-RUN npm install
+# Sao chép tệp từ hệ thống tệp của bạn vào container
+COPY . /app
 
-# Copy the rest of the application code to the container
-COPY . .
-
-# Make port 8080 available to the world outside this container
-EXPOSE 8080
-
-# Run the applicationsss
-CMD ["node", "app.js"]
+# Đặt lệnh mặc định để chạy khi container khởi động
+CMD ["sh"]
