@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: my-container
-        image: linhps/your-repo-namee:latest
+        image: linhps/your-repo-name:latest
         ports:
         - containerPort: 80
