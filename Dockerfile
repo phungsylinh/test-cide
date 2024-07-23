@@ -1,14 +1,18 @@
-# Sử dụng image cơ sở, ví dụ: Alpine
-FROM alpine:latest
+# Use Amazon Linux Version 1
+FROM amazonlinux:1
 
-# Cài đặt các công cụ cần thiết, ví dụ: curl
-RUN apk --no-cache add curl
+# Download latest 2.x release of X-Ray daemon
+RUN yum install -y unzip && \
+    cd /tmp/ && \
+    curl https://s3.dualstack.us-east-2.amazonaws.com/aws-xray-assets.us-east-2/xray-daemon/aws-xray-daemon-linux-2.x.zip > aws-xray-daemon-linux-2.x.zip && \
+    unzip aws-xray-daemon-linux-2.x.zip && \
+    cp xray /usr/bin/xray && \
+    rm aws-xray-daemon-linux-2.x.zip && \
+    rm cfg.yaml
 
-# Đặt thư mục làm việc
-WORKDIR /app
+# Expose port 2000 on udp
+EXPOSE 2000/udp
 
-# Sao chép tệp từ hệ thống tệp của bạn vào container
-COPY . /app
+ENTRYPOINT ["/usr/bin/xray"]
 
-# Đặt lệnh mặc định để chạy khi container khởi động
-CMD ["sh"]
+# No cmd line parameters, use default configuration
